@@ -9,7 +9,7 @@ import {
 /* tslint:disable-next-line */
 const Cache = require('vscode-cache');
 import { hash } from './utils/hash';
-import { extensionId } from './constants';
+import { basename } from 'path';
 
 const noop = {
     dispose() {}
@@ -62,6 +62,9 @@ export class RobotController implements Disposable {
         const names = workspaces.map((wk: WorkspaceFolder) => {
             return wk.uri.fsPath;
         });
+        if (names.length === 1) {
+            return Promise.resolve(names);
+        }
         return window
             .showQuickPick(names, {
                 canPickMany: true
@@ -130,9 +133,10 @@ export class RobotController implements Disposable {
                     if (_hashID !== undefined) {
                         const command = this.cache.get(_hashID);
                         if (command !== undefined) {
-                            const terminal = window.createTerminal(
-                                `${extensionId}-${workspace.name}-AutoTask`
-                            );
+                            const terminal = window.createTerminal({
+                                name: `RobotTask-${wk.name}`,
+                                cwd: wk.uri.fsPath
+                            });
                             terminal.show();
                             terminal.sendText(command);
                             prev.push(terminal);
@@ -162,12 +166,12 @@ export class RobotController implements Disposable {
                         | false = this.cache.forget(_hashID);
                     if (asyncProcess === false) {
                         window.showInformationMessage(
-                            `Project ${uri} has pruned`
+                            `Project ${basename(v)} has pruned`
                         );
                     } else {
                         asyncProcess.then(() => {
                             window.showInformationMessage(
-                                `Project ${uri} has pruned`
+                                `Project ${basename(v)} has pruned`
                             );
                         });
                     }
