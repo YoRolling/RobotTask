@@ -1,7 +1,13 @@
 {
 	"name": "robottask",
 	"displayName": "RobotTask",
-	"description": "auto run commands when workspace loaded",
+	"repository": {
+		"type": "github",
+  		"url": "https://github.com/YoRolling/RobotTask/"
+	},
+	"description": "auto run commands when workspace actived",
+	"icon": "images/icons.png",
+	"publisher": "YoRolling",
 	"version": "0.0.1",
 	"engines": {
 		"vscode": "^1.32.0"
