@@ -21,6 +21,11 @@ No any settings.
 
 Initial release of Robot-Task
 
+
+### 0.0.2
+
+lazy init on "onStartupFinished" Hook
+
 -----------------------------------------------------------------------------------------------------------
 
 **Enjoy!**
